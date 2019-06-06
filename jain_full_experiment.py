@@ -14,8 +14,21 @@ import numpy as np
 import sys 
 from tqdm import tqdm 
 import subprocess 
-import matplotlib.pyplot as plt 
-  
+import matplotlib.pyplot as plt
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-bw", type=int, default=46, help="link bandwidth in Mbits/s")
+parser.add_argument("-d", type=int, default=10, help="link delay in ms (1/2 RTT)")
+parser.add_argument("-q", type=int, default=77, help="queue size (in packets)")
+parser.add_argument("-ift", type=int, default=1, help="inter-flow time")
+parser.add_argument("-delta", type=int, default=0, help="extend graphs past end of experiment")
+parser.add_argument("-num_flows", type=int, default=10)
+parser.add_argument("-algs", nargs='*', default=['markovian', 'cubic', 'bbr', 'pcc', 'reno', 'vegas'],
+                    help="list of algorithms to test")
+
+args = parser.parse_args()
+
 def run(node, cmd): 
     x = node.popen(cmd, shell=True) 
     print(x.communicate()) 
@@ -26,18 +39,18 @@ class CTopo(Topo):
         hosts = [] 
         for i in range(2): 
             hosts.append(self.addHost('h' +str(i+1))) 
-        self.addLink(hosts[0], hosts[1], bw=100,  
-                     max_queue_size=167, delay=str(10)+'ms') 
+        self.addLink(hosts[0], hosts[1], bw=args.bw,  
+                     max_queue_size=args.q, delay=str(args.d)+'ms') 
   
   
-idntifier = "1f_" 
-algs = ['markovian', 'cubic', 'bbr', 'pcc'] 
-#algs = ['reno', 'vegas']
-delta = 5
-num_flows = 1 
-inter_flow_time = 5 
+idntifier = str(args.bw)+"_"+str(args.d)+"_"+str(args.q)+"_"+str(args.ift)+"_"+
+            str(args.num_flows)+"_" 
+algs = args.algs
+delta = args.delta
+num_flows = args.num_flows
+inter_flow_time = args.ift
   
-for alg in ['bbr']: 
+for alg in algs: 
   
     cleanup() 
  
@@ -63,9 +76,7 @@ for alg in ['bbr']:
     start = time() 
     ps = [] 
     for i in range(num_flows): 
-        print(i) 
         onduration = 2*(inter_flow_time*(num_flows-i)) 
-        print(onduration) 
         if alg == 'markovian': 
             p = h1.popen('timeout ' + str(onduration) + ' ' + 
                          './pantheon/third_party/genericCC/sender serverip='+h2.IP() +  
@@ -95,7 +106,7 @@ for alg in ['bbr']:
 
 bucket_size=0.1 # in seconds 
 
-for alg in ['bbr']: 
+for alg in algs: 
     pcap = dpkt.pcap.Reader(open(idntifier + alg+'-trace', 'rb')) 
     bucket_start = -1 
     buckets, bucket, jain = {}, {}, {} 
@@ -123,13 +134,7 @@ for alg in ['bbr']:
             eth = dpkt.ethernet.Ethernet(buf) 
         except: 
             continue 
-
-        try:
-            ip = dpkt.ip.IP(buf)
-        except:
-            continue
-        #eth.data = ip
-  
+ 
         if type(eth.data) == str or type(eth.data.data) == str: 
             continue 
         if type(eth.data.data) != dpkt.tcp.TCP and type(eth.data.data) != dpkt.udp.UDP: 
@@ -215,23 +220,21 @@ for alg in ['bbr']:
     plot '%s' using 1:2 with lines 
     """ % ('' + alg + '-trace' + "-jain.svg", (num_flows*inter_flow_time*2)+delta, jainfilename)) 
 
+    print("Run the following commands to create throughput and Jain plots.")
     print("gnuplot -p %s" % tptgnufilename) 
     print("inkscape -A %s %s" % ('' + alg + '-trace' + "-tpt.pdf", '' + alg + '-trace' + "-tpt.svg")) 
     print("gnuplot -p %s" % jaingnufilename) 
     print("inkscape -A %s %s" % ('' + alg + '-trace' + "-jain.pdf", '' + alg + '-trace' + "-jain.svg")) 
   
-    # subprocess.Popen("gnuplot -p %s" % tptgnufilename, shell=True) 
-    # subprocess.Popen("inkscape -A %s %s" % ('' + alg + '-trace' + "-tpt.pdf", '' + alg + '-trace' + "-tpt.svg"), shell=True) 
-    # subprocess.Popen("gnuplot -p %s" % jaingnufilename, shell=True) 
-    # subprocess.Popen("inkscape -A %s %s" % ('' + alg + '-trace' + "-jain.pdf", '' + alg + '-trace' + "-jain.svg"), shell=True) 
-  
+
+sleep(5) #pause to make sure data is written before trying to graph it
 jains = [] 
   
 names = {'markovian': 'Copa', 'cubic': 'Cubic', 'bbr': 'BBR', 'pcc': 'PCC',
        'reno': 'Reno', 'vegas': 'Vegas'} 
 colors = {'markovian': 'purple', 'cubic': 'green', 'bbr': 'blue', 'pcc': 'goldenrod',
           'reno': 'red', 'vegas': 'black'} 
-for alg in ['markovian', 'cubic', 'bbr', 'pcc']:#, 'reno', 'vegas']: 
+for alg in ['markovian', 'cubic', 'bbr', 'pcc', 'reno', 'vegas']: 
     with open(idntifier+ alg + '-trace-jain.dat', 'r') as f: 
         for line in f: 
             data = line.split(' ')
@@ -245,4 +248,4 @@ for alg in ['markovian', 'cubic', 'bbr', 'pcc']:#, 'reno', 'vegas']:
 plt.xlabel('Jain Index') 
 plt.ylabel('CDF') 
 plt.legend(loc='upper left') 
-#plt.show() 
+plt.show() 
