@@ -18,5 +18,19 @@
 
 	The delay and throughput results should be available in the file specified for -i in the command in part 1.
 
+# Jain Fairness Results
+
+1. run `./jain_full_experiment.py.` The script takes the following arguments:
+	* -bw: the bandwidth of the emulated link in Mb/s.
+	* -d: the delay of the link in ms.
+	* -q: the queue size of the link in packets.
+	* -ift: the inter-flow time (i.e., the time between consecutive flow start and ends) in seconds.
+	* -delta: how long to extent the throughput plots after the end of the experiment in seconds (e.g, with delta=1, a 20s experiment will be plotted with an x-axis from 0 to 21).
+	* -num_flows: the number of flows to run.
+	* -algs: a list of the congestion control protocols to compare.
+
+By default, the parameters are set to match the settings used in the original paper, with the addition of the Reno and Vegas congestion control protocols. 
+
+Note that occasionally the trace processing code will fail because the tcpdump program was cut off in the middle of logging a packet. If this happens, just rerun the script for the algorithm that experienced the issue.
 	
 
