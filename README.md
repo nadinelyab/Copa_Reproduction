@@ -20,7 +20,7 @@
 
 # Jain Fairness Results
 
-1. run `./jain_full_experiment.py.' The script takes the following arguments:
+1. run `./jain_full_experiment.py.` The script takes the following arguments:
 	* -bw: the bandwidth of the emulated link in Mb/s.
 	* -d: the delay of the link in ms.
 	* -q: the queue size of the link in packets.
