@@ -1,0 +1,15 @@
+Stanford 2018-02-20T01-43-AWS-California-1-to-Stanford-10-runs
+Mexico 2018-02-20T01-44-AWS-California-2-to-Mexico-10-runs
+Colombia 2018-02-20T00-48-AWS-Brazil-2-to-Colombia-10-runs
+India 2018-02-20T00-43-AWS-India-1-to-India-10-runs
+Brazil 2018-02-20T00-31-AWS-Brazil-1-to-Brazil-10-runs
+Stanford 2018-02-20T09-44-Stanford-to-AWS-California-1-10-runs-3-flows
+Stanford 2018-02-20T14-36-AWS-California-1-to-Stanford-10-runs-3-flows
+Mexico 2018-02-20T13-51-AWS-California-2-to-Mexico-10-runs-3-flows
+Mexico 2018-02-20T09-44-Mexico-to-AWS-California-2-10-runs-3-flows
+Colombia 2018-02-20T09-44-Colombia-to-AWS-Brazil-2-10-runs-3-flows
+Colombia 2018-02-20T13-39-AWS-Brazil-2-to-Colombia-10-runs-3-flows
+India 2018-02-20T09-44-India-to-AWS-India-1-10-runs-3-flows
+India 2018-02-20T13-24-AWS-India-1-to-India-10-runs-3-flows
+Brazil 2018-02-20T09-44-Brazil-to-AWS-Brazil-1-10-runs-3-flows
+Brazil 2018-02-20T13-08-AWS-Brazil-1-to-Brazil-10-runs-3-flows

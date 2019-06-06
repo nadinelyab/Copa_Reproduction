@@ -117,7 +117,7 @@ then
 			echo "Untarring ..."
 		    tar -xf $file
 		fi
-		python ../avg_delay_one_cc.py -d $directory >> $current_time"_delay_results.txt"
+		python ../avg_delay.py -d $directory >> $current_time"_delay_results.txt"
 		rm -rf $directory
 	done
 fi
