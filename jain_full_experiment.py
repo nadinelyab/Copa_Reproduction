@@ -43,8 +43,7 @@ class CTopo(Topo):
                      max_queue_size=args.q, delay=str(args.d)+'ms') 
   
   
-idntifier = str(args.bw)+"_"+str(args.d)+"_"+str(args.q)+"_"+str(args.ift)+"_"+
-            str(args.num_flows)+"_" 
+idntifier = str(args.bw)+"_"+str(args.d)+"_"+str(args.q)+"_"+str(args.ift)+"_"+str(args.num_flows)+"_" 
 algs = args.algs
 delta = args.delta
 num_flows = args.num_flows
@@ -227,7 +226,8 @@ for alg in algs:
     print("inkscape -A %s %s" % ('' + alg + '-trace' + "-jain.pdf", '' + alg + '-trace' + "-jain.svg")) 
   
 
-sleep(5) #pause to make sure data is written before trying to graph it
+print("preparing to generate CDF plot")
+sleep(10) #pause to make sure data is written before trying to graph it
 jains = [] 
   
 names = {'markovian': 'Copa', 'cubic': 'Cubic', 'bbr': 'BBR', 'pcc': 'PCC',
