@@ -1,6 +1,8 @@
 # Pantheon Results
 
-1. Run `./run.sh` to download and start aggregating Pantheon data. This script takes the following arguments:
+1. To set up dependencies run `pip install .` in the outermost directory of this repo.
+2. `cd pantheon-reproduction`
+3. Run `./run.sh` to download and start aggregating Pantheon data. This script takes the following arguments:
 	* -i : the directory to put all downloaded files into and to read files from.
 	* -f : a file with the experiments to aggregate. Sample files are provided in each of the cellular, wired, recent_cellular, and recent_wired directories.
 	* -t : to only run throughput aggregation.
@@ -11,7 +13,7 @@
 
 	A sample command could be `./run.sh -i wired -f after_feb_19.txt -l -p` to do the throughput and aggregate delay for all experiments listed in after_feb_19.txt which is found in the wired directory and attempt to download the log and pdf files needed. Another command could be `./run.sh -i current_cellular -f cellular_names.txt -d -r` to run the aggregation for only the delay on the experiments in the cellular_names.txt file in the current_cellular directory. This command does not attempt to downloaded the necessary json files and assumes they already exist in the recent_cellular directory.
 
-2. To obtain plots run `python final_aggregate_delay.py` with the following arguments:
+4. To obtain plots run `python final_aggregate_delay.py` with the following arguments:
 	* -d : the path to a file with the delay results.
 	* -t : the path to a file with the throughput results.
 	* -p : if present the plot will show the comparison between these reproduction results and the original results in the paper. If this option is set it must specify if wired or cellular. If the option is not set the plot will just be of the reproduction results.
