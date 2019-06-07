@@ -50,7 +50,7 @@ num_flows = args.num_flows
 inter_flow_time = args.ift
   
 for alg in algs: 
-  
+    print(alg)
     cleanup() 
  
     topo = CTopo() 
@@ -63,7 +63,7 @@ for alg in algs:
   
     h2 = net.get('h2') 
     h1 = net.get('h1') 
-  
+
     if alg == 'markovian': 
         h2.popen('./pantheon/third_party/genericCC/receiver') 
     elif alg in ['cubic', 'bbr', 'reno', 'vegas']: 
@@ -76,6 +76,7 @@ for alg in algs:
     ps = [] 
     for i in range(num_flows): 
         onduration = 2*(inter_flow_time*(num_flows-i)) 
+        print(onduration)
         if alg == 'markovian': 
             p = h1.popen('timeout ' + str(onduration) + ' ' + 
                          './pantheon/third_party/genericCC/sender serverip='+h2.IP() +  
@@ -234,7 +235,7 @@ names = {'markovian': 'Copa', 'cubic': 'Cubic', 'bbr': 'BBR', 'pcc': 'PCC',
        'reno': 'Reno', 'vegas': 'Vegas'} 
 colors = {'markovian': 'purple', 'cubic': 'green', 'bbr': 'blue', 'pcc': 'goldenrod',
           'reno': 'red', 'vegas': 'black'} 
-for alg in ['markovian', 'cubic', 'bbr', 'pcc', 'reno', 'vegas']: 
+for alg in algs: 
     with open(idntifier+ alg + '-trace-jain.dat', 'r') as f: 
         for line in f: 
             data = line.split(' ')
