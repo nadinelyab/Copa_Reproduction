@@ -1,5 +1,5 @@
 # COPA Reproduction
-CS244 Spring 2019 project to reproduce the USENIX paper Copa: Practical Delay-Based Congestion Control. You can read the full report [here] (https://reproducingnetworkresearch.wordpress.com/2019/09/27/cs-244-19-reproducing-copa/).
+CS244 Spring 2019 project to reproduce the USENIX paper Copa: Practical Delay-Based Congestion Control. You can read the full report [here](https://reproducingnetworkresearch.wordpress.com/2019/09/27/cs-244-19-reproducing-copa/).
 
 # Pantheon Results
 
